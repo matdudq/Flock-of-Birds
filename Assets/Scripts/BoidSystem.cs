@@ -40,18 +40,31 @@ namespace FlockOfBirds
 				boidQuery.ResetFilter();
 				boidQuery.AddSharedComponentFilter(sharedData);
 				
-				var boidCount = boidQuery.CalculateEntityCount();
+				int boidCount = boidQuery.CalculateEntityCount();
 
 				if (boidCount == 0)
 				{
 					continue;
 				}
 				
+				ComponentTypeHandle<LocalToWorld> ltwComponentHandle = GetComponentTypeHandle<LocalToWorld>();
+
+				NativeArray<int> hashes = CollectionHelper.CreateNativeArray<int, RewindableAllocator>(boidCount, ref World.UpdateAllocator);
+				NativeMultiHashMap<int,int> cellHashToIndex = new NativeMultiHashMap<int, int>(boidCount, World.UpdateAllocator.ToAllocator);
+				
+				HashingJobChunk hashingJobChunk = new HashingJobChunk()
+				{
+					sharedData = sharedData,
+					localToWorldType = ltwComponentHandle,
+					hashes = hashes,
+					parallelhashMap = cellHashToIndex.AsParallelWriter()
+				};
+
+				Dependency = hashingJobChunk.ScheduleParallel(boidQuery, Dependency);
+				
 				NativeArray<LocalToWorld> neighboursLTW = boidQuery.ToComponentDataArrayAsync<LocalToWorld>(Allocator.TempJob, out JobHandle setQueryHandle);
 				Dependency = JobHandle.CombineDependencies(Dependency, setQueryHandle);
 
-				ComponentTypeHandle<LocalToWorld> ltwComponentHandle = GetComponentTypeHandle<LocalToWorld>();
-				
 				NativeArray<float3> alignmentVectors = CollectionHelper.CreateNativeArray<float3, RewindableAllocator>(boidCount, ref World.UpdateAllocator);
 				
 				var calculateAlignmentJobChunk = new AlignmentJobChunk()
@@ -59,7 +72,9 @@ namespace FlockOfBirds
 					boidSharedData = sharedData,
 					localToWorldType = ltwComponentHandle,
 					alignments = alignmentVectors,
-					neighboursLTW = neighboursLTW
+					neighboursLTW = neighboursLTW,
+					hashes = hashes,
+					parallelHashMap = cellHashToIndex
 				};
 
 				Dependency = calculateAlignmentJobChunk.ScheduleParallel(boidQuery, Dependency);
@@ -71,7 +86,9 @@ namespace FlockOfBirds
 					boidSharedData = sharedData,
 					localToWorldType = ltwComponentHandle,
 					separations = separationVectors,
-					neighboursLTW = neighboursLTW
+					neighboursLTW = neighboursLTW,
+					hashes = hashes,
+					parallelHashMap = cellHashToIndex
 				};
 
 				Dependency = calculateSeparationJobChunk.ScheduleParallel(boidQuery, Dependency);

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -710745074149673540}
   - component: {fileID: -6401779214706757390}
   m_Layer: 0
-  m_Name: Bird
+  m_Name: Red Bird
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,12 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cc3e76bc77e48e1bd765bbee46933b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boidRadius: 2
+  boidRadius: 1.5
   boidSpeed: 10
-  separation: 0.5
+  boidManeuverSpeed: 5
+  separation: 1
   alignment: 1
-  cohesion: 0.5
-  alignmentRadius: 5
+  cohesion: 0
+  cellRadius: 10
 --- !u!23 &-710745074149673540
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -70,8 +71,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -9103484930961366303, guid: a0142dc53d21bee409ef09716c44eaed, type: 3}
-  - {fileID: 2955649774718943771, guid: a0142dc53d21bee409ef09716c44eaed, type: 3}
+  - {fileID: 2100000, guid: 4c1ca7c8e4a807b419b0c899f27802f4, type: 2}
+  - {fileID: 2100000, guid: 9f7c17780658b0344bf091d5d365ec40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

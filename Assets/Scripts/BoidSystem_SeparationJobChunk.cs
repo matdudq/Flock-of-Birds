@@ -3,6 +3,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace FlockOfBirds
 {
@@ -18,6 +19,11 @@ namespace FlockOfBirds
 			[ReadOnly]
 			public ComponentTypeHandle<LocalToWorld> localToWorldType;
 			
+			[ReadOnly]
+			public NativeArray<int> hashes;
+			[ReadOnly]
+			public NativeMultiHashMap<int, int> parallelHashMap;
+			
 			public NativeArray<float3> separations;
 
 			public void Execute(ArchetypeChunk chunk, int chunkIndex, int firstEntityIndex)
@@ -30,27 +36,21 @@ namespace FlockOfBirds
 					float3 position = chunkLTW[i].Position;
 
 					float3 separation = new float3(0,0,0);
-					float neihboursCount = 0;
 					
-					for (int j = 0; j < neighboursLTW.Length; j++)
+					var cellMembers = parallelHashMap.GetValuesForKey(hashes[entityGlobalIndex]);
+
+					foreach (int cellMember in cellMembers)
 					{
-						if (entityGlobalIndex == j)
-						{
-							continue;
-						}
-					
-						float3 neighbourPosition = neighboursLTW[j].Position;
+						float3 neighbourPosition = neighboursLTW[cellMember].Position;
 						float distanceToNeighbour = math.length(position - neighbourPosition);
 						if (distanceToNeighbour <= desiredSeparation)
 						{
-							float3 neighbourPosToPos = math.normalize(position - neighbourPosition);
-							neighbourPosToPos /= distanceToNeighbour;
+							float3 neighbourPosToPos = math.normalizesafe(position - neighbourPosition);
 							separation += neighbourPosToPos;
-							neihboursCount++;
 						}
 					}
-
-					separations[entityGlobalIndex] = neihboursCount > 0 ? math.normalize(separation) : separation;
+					
+					separations[entityGlobalIndex] = math.normalizesafe(separation) ;
 				}
 			}
 		}

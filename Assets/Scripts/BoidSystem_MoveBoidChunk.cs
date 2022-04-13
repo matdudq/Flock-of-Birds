@@ -3,6 +3,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace FlockOfBirds
 {
@@ -32,16 +33,15 @@ namespace FlockOfBirds
 				for (int i = 0; i < chunk.Count; i++)
 				{
 					float3 forward = localToWorldChunk[i].Forward;
-				    float3 alignment = boidSharedData.alignment * math.normalizesafe(alignmentVectors[firstEntityIndex + i] - forward);
-					float3 separation = boidSharedData.separation * math.normalizesafe(separationVectors[firstEntityIndex + i] - forward);
-
+				    float3 alignment = boidSharedData.alignment * alignmentVectors[firstEntityIndex + i];
+					float3 separation = boidSharedData.separation * separationVectors[firstEntityIndex + i];
+					
 					float3 combinedBehaviour = math.normalizesafe(alignment + separation);
 					
-					//as we don't store velocity related datas we have to speculate next move direction.
-				    float3 speculativePosition = math.normalizesafe(forward + 0.05f * (combinedBehaviour - forward));
+				    float3 speculativeVelocity = math.normalizesafe(forward + deltaTime * (combinedBehaviour - forward) * boidSharedData.maneuverSpeed);
 					
-					float3 position = localToWorldChunk[i].Position + (speculativePosition * boidSharedData.speed * deltaTime);
-					quaternion rotation = quaternion.LookRotationSafe(speculativePosition, math.up());
+					float3 position = localToWorldChunk[i].Position + (speculativeVelocity * boidSharedData.speed * deltaTime);
+					quaternion rotation = quaternion.LookRotationSafe(speculativeVelocity, math.up());
 					float3 size = new float3(1.0f, 1.0f, 1.0f);
 					localToWorldChunk[i] = new LocalToWorld()
 					{

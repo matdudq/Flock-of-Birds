@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Fantasy Skybox Lit Sky
+  m_Shader: {fileID: 4800000, guid: fd36204c851d5134da6a699bb5e03a35, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlbedoTex:
+        m_Texture: {fileID: 2800000, guid: c0dc37c8fdf30a44aa1147b00d01b11d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CloudsNoise:
+        m_Texture: {fileID: 2800000, guid: b4122fef612011d4f8e7c095d75a073d, type: 3}
+        m_Scale: {x: 1, y: 3}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 2, y: 8}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BackgroundColorOffset: -0.216
+    - _BumpScale: 1
+    - _CloudLevel: 0.452
+    - _CloudRangeBottom: 0
+    - _CloudRangeTop: 0.4
+    - _CloudSpeed: 0.2
+    - _Cutoff: 0.5
+    - _Density: 50
+    - _DensityX: 100
+    - _DensityY: 30
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _FogLevel: 0.058
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _HorizonLevel: 0
+    - _HorizonTransitionModifer: 40.1
+    - _Metallic: 0
+    - _Mode: 0
+    - _MoonMaskSize: 0.22
+    - _MoonSize: 0.236
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _Seed: 106.53
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _StarSize: 60
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _BackgroundColorBottom: {r: 0, g: 0.9960785, b: 0.7960785, a: 1}
+    - _BackgroundColorTop: {r: 0, g: 0.21023417, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FogColor: {r: 0.56981134, g: 1, b: 0.91227525, a: 1}
+    - _MoonColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MoonMaskOffset: {r: 0.08, g: -0.03, b: 0, a: 0}
+    - _StarsColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

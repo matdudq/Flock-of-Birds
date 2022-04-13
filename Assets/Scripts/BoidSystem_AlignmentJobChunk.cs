@@ -3,6 +3,7 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using UnityEngine;
 
 namespace FlockOfBirds
 {
@@ -17,6 +18,11 @@ namespace FlockOfBirds
 			public NativeArray<LocalToWorld> neighboursLTW;
 			[ReadOnly]
 			public ComponentTypeHandle<LocalToWorld> localToWorldType;
+
+			[ReadOnly]
+			public NativeArray<int> hashes;
+			[ReadOnly]
+			public NativeMultiHashMap<int, int> parallelHashMap;
 			
 			public NativeArray<float3> alignments;
 			
@@ -27,28 +33,19 @@ namespace FlockOfBirds
 				for (int i = 0; i < chunk.Count; i++)
 				{
 					int entityGlobalIndex = firstEntityIndex + i;
-					float3 position = chunkLTW[i].Position;
 
 					float3 alignment = new float3(0,0,0);
 					float neihboursCount = 0;
-					
-					for (int j = 0; j < neighboursLTW.Length; j++)
-					{
-						if (entityGlobalIndex == j)
-						{
-							continue;
-						}
-					
-						float3 neighbourPosition = neighboursLTW[j].Position;
-						
-						if (math.length(position - neighbourPosition) <= boidSharedData.alignmentRadius)
-						{
-							alignment += neighboursLTW[j].Forward * boidSharedData.speed;
-							neihboursCount++;
-						}
-					}
 
-					alignments[entityGlobalIndex] = neihboursCount > 0 ? alignment / neihboursCount : alignment;
+					var cellMembers = parallelHashMap.GetValuesForKey(hashes[entityGlobalIndex]);
+
+					foreach (int cellMember in cellMembers)
+					{
+						alignment += neighboursLTW[cellMember].Forward;
+						neihboursCount++;
+					}
+					
+					alignments[entityGlobalIndex] = (alignment - chunkLTW[i].Forward) / neihboursCount;
 				}
 			}
 		}

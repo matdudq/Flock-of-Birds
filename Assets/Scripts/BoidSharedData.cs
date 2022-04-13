@@ -6,9 +6,10 @@ namespace FlockOfBirds
 	{
 		public float radius;
 		public float speed;
+		public float maneuverSpeed;
 		public float separation;
 		public float alignment;
-		public float alignmentRadius;
 		public float cohesion;
+		public float cellRadius;
 	}
 }
