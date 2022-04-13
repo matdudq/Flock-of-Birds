@@ -20,7 +20,11 @@ Based on:
 ## Examples <a name="examples"></a>
 
 ## Features <a name="features"></a>
-
+Flocking system contains behaviours implemented as separated jobs. Each behaviour can be combined freely with the others.
+List of implemented flocking behaviours:
+ - Alignment
+ - Separation
+ 
 ## System Requirements <a name="system-requirements"></a>
 
 Unity 2020.3.32+
