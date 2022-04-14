@@ -43,6 +43,11 @@ namespace FlockOfBirds
 					{
 						alignment += neighboursLTW[cellMember].Forward;
 						neihboursCount++;
+
+						if (processingNeighbourCount < neihboursCount)
+						{
+							break;
+						}
 					}
 					
 					alignments[entityGlobalIndex] = (alignment - chunkLTW[i].Forward) / neihboursCount;

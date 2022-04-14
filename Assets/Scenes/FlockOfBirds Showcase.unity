@@ -155,7 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boidPrefab: {fileID: 6952106528733434529, guid: 111190eab99cb784eb2901330b9ee2d2, type: 3}
   spawnRadius: 100
-  count: 2500
+  count: 50000
 --- !u!114 &290036167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,7 +456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boidPrefab: {fileID: 6952106528733434529, guid: 2f50b4656be7fc7418417a71fc5d16d7, type: 3}
   spawnRadius: 100
-  count: 1000
+  count: 50000
 --- !u!4 &1186418062
 Transform:
   m_ObjectHideFlags: 0
@@ -501,7 +501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   borderOrigin: {x: 0, y: 0, z: -86.89}
-  borderRadius: 100
+  borderRadius: 150
 --- !u!4 &1358123918
 Transform:
   m_ObjectHideFlags: 0

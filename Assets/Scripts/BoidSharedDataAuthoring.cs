@@ -4,8 +4,7 @@ using Unity.Transforms;
 using UnityEngine;
 
 namespace FlockOfBirds
-{ 
-	#if UNITY_EDITOR
+{
 	public class BoidSharedDataAuthoring : MonoBehaviour, IConvertGameObjectToEntity
 	{
 		[SerializeField]
@@ -46,5 +45,4 @@ namespace FlockOfBirds
 			dstManager.RemoveComponent<Rotation>(entity);
 		}
 	}
-	#endif
 }

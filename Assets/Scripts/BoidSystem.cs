@@ -15,6 +15,8 @@ namespace FlockOfBirds
 		private EntityQuery boidQuery;
 
 		private readonly List<BoidSharedData> boidSharedDatas = new List<BoidSharedData>();
+
+		private const int processingNeighbourCount = 25;
 		
 		protected override void OnCreate()
 		{

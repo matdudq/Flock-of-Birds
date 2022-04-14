@@ -38,6 +38,7 @@ namespace FlockOfBirds
 					float3 separation = new float3(0,0,0);
 					
 					var cellMembers = parallelHashMap.GetValuesForKey(hashes[entityGlobalIndex]);
+					float neihboursCount = 0;
 
 					foreach (int cellMember in cellMembers)
 					{
@@ -47,6 +48,12 @@ namespace FlockOfBirds
 						{
 							float3 neighbourPosToPos = math.normalizesafe(position - neighbourPosition);
 							separation += neighbourPosToPos;
+							neihboursCount++;
+						}
+						
+						if (processingNeighbourCount < neihboursCount)
+						{
+							break;
 						}
 					}
 					
