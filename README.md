@@ -18,7 +18,7 @@ Based on:
  - Daniel Shiffman - Nature of Code: https://natureofcode.com/
 
 ## Examples <a name="examples"></a>
-<img src="https://i.imgur.com/uKb8M0L.gif">
+<img src="https://i.imgur.com/h5XXxMw.gif">
 
 ## Features <a name="features"></a>
 The system can handle even 100k entities efficiently, thanks to using DOTS platform and Bin-Lattice spatial subdivision approach.
