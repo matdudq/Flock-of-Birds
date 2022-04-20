@@ -1,5 +1,4 @@
-﻿using Unity.Collections;
-using Unity.Entities;
+﻿using Unity.Entities;
 using Unity.Transforms;
 using UnityEngine;
 
@@ -26,9 +25,6 @@ namespace FlockOfBirds
 		private float alignment = 0.5f;
 		
 		[SerializeField, Range(0f,5f)]
-		private float cohesion = 0.5f;
-		
-		[SerializeField, Range(0f,5f)]
 		private float followTarget;
 
 		public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
@@ -40,7 +36,6 @@ namespace FlockOfBirds
 				maneuverSpeed = boidManeuverSpeed,
 				separation = separation,
 				alignment = alignment,
-				cohesion = cohesion,
 				cellRadius = cellRadius,
 				followTarget = followTarget
 			});

@@ -4,7 +4,6 @@ using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
-using UnityEngine;
 
 namespace FlockOfBirds
 {
@@ -35,6 +34,8 @@ namespace FlockOfBirds
 		{
 			float deltaTime = math.min(0.05f,Time.DeltaTime);
 			float3 targetPosition = BoidSystemSettings.Instance.TargetPosition;
+			float borderRadius = BoidSystemSettings.Instance.BorderRadius;
+			float3 borderOrigin = BoidSystemSettings.Instance.BorderOrigin;
 			
 			EntityManager.GetAllUniqueSharedComponentData(boidSharedDatas);
 			
@@ -123,14 +124,14 @@ namespace FlockOfBirds
 				
 				Dependency = moveBoidJobChunk.ScheduleParallel(boidQuery, behaviourCalculationDependency);
 				
-				// var applyBordersJobChunk = new ApplyBordersBoidChunk()
-				// {
-				// 	borderRadius = BoidSystemSettings.Instance.BorderRadius,
-				// 	borderPosition = BoidSystemSettings.Instance.BorderOrigin,
-				// 	localToWorldType = ltwComponentHandle,
-				// };
-				//
-				// Dependency = applyBordersJobChunk.ScheduleParallel(boidQuery, Dependency);
+				var applyBordersJobChunk = new ApplyBordersBoidChunk()
+				{
+					borderRadius = borderRadius,
+					borderPosition = borderOrigin,
+					localToWorldType = ltwComponentHandle,
+				};
+				
+				Dependency = applyBordersJobChunk.ScheduleParallel(boidQuery, Dependency);
 
 				neighboursLTW.Dispose(Dependency);
 			}
