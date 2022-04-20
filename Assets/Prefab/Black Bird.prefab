@@ -46,12 +46,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boidRadius: 1.5
+  cellRadius: 10
   boidSpeed: 10
   boidManeuverSpeed: 5
   separation: 1
   alignment: 1
   cohesion: 0
-  cellRadius: 10
+  followTarget: 0.1
 --- !u!23 &-710745074149673540
 MeshRenderer:
   m_ObjectHideFlags: 0

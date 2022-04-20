@@ -3,7 +3,6 @@ using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
-using UnityEngine;
 
 namespace FlockOfBirds
 {
@@ -18,7 +17,10 @@ namespace FlockOfBirds
 			[ReadOnly]
 			public ComponentTypeHandle<LocalToWorld> localToWorldType;
 			
+			[WriteOnly]
 			public NativeArray<int> hashes;
+			
+			[WriteOnly]
 			public NativeMultiHashMap<int, int>.ParallelWriter parallelhashMap;
 			
 			public void Execute(ArchetypeChunk chunk, int chunkIndex, int firstEntityIndex)
@@ -29,8 +31,9 @@ namespace FlockOfBirds
 				{
 					int globalIndex = firstEntityIndex + i;
 					int3 cord = new int3(math.floor(chunkLTW[i].Position / sharedData.cellRadius));
-					hashes[globalIndex] = (int)math.hash(cord);
-					parallelhashMap.Add(hashes[globalIndex], firstEntityIndex + i);
+					int hash = (int) math.hash(cord);
+					hashes[globalIndex] = hash;
+					parallelhashMap.Add(hash, firstEntityIndex + i);
 				}
 			}
 		}

@@ -34,6 +34,8 @@ namespace FlockOfBirds
 		protected override void OnUpdate()
 		{
 			float deltaTime = math.min(0.05f,Time.DeltaTime);
+			float3 targetPosition = BoidSystemSettings.Instance.TargetPosition;
+			
 			EntityManager.GetAllUniqueSharedComponentData(boidSharedDatas);
 			
 			for (int i = 0; i < boidSharedDatas.Count; i++)
@@ -71,7 +73,6 @@ namespace FlockOfBirds
 				
 				var calculateAlignmentJobChunk = new AlignmentJobChunk()
 				{
-					boidSharedData = sharedData,
 					localToWorldType = ltwComponentHandle,
 					alignments = alignmentVectors,
 					neighboursLTW = neighboursLTW,
@@ -79,7 +80,7 @@ namespace FlockOfBirds
 					parallelHashMap = cellHashToIndex
 				};
 
-				Dependency = calculateAlignmentJobChunk.ScheduleParallel(boidQuery, Dependency);
+				JobHandle calculateAlignmentJobHandler = calculateAlignmentJobChunk.ScheduleParallel(boidQuery, Dependency);
 				
 				NativeArray<float3> separationVectors = CollectionHelper.CreateNativeArray<float3, RewindableAllocator>(boidCount, ref World.UpdateAllocator);
 
@@ -93,27 +94,43 @@ namespace FlockOfBirds
 					parallelHashMap = cellHashToIndex
 				};
 
-				Dependency = calculateSeparationJobChunk.ScheduleParallel(boidQuery, Dependency);
+				JobHandle calculateSeparationJobHandle = calculateSeparationJobChunk.ScheduleParallel(boidQuery, Dependency);
+				
+				NativeArray<float3> followingVectors = CollectionHelper.CreateNativeArray<float3, RewindableAllocator>(boidCount, ref World.UpdateAllocator);
+
+				var followTargetJobChunk = new FollowTargetJobChunk()
+				{
+					localToWorldType = ltwComponentHandle,
+					targetPosition = targetPosition,
+					follwingVectors = followingVectors
+				};
+				
+				JobHandle calculateFollowingTargetJobHandle = followTargetJobChunk.ScheduleParallel(boidQuery, Dependency);
 				
 				var moveBoidJobChunk = new MoveBoidJobChunk()
 				{
 					alignmentVectors = alignmentVectors,
 					separationVectors = separationVectors,
+					followingVectors = followingVectors,
 					boidSharedData = sharedData,
 					deltaTime = deltaTime,
 					localToWorldType = ltwComponentHandle
 				};
+
+				var behaviourCalculationDependency = JobHandle.CombineDependencies(calculateAlignmentJobHandler, 
+																				   calculateSeparationJobHandle,
+																				   calculateFollowingTargetJobHandle);
 				
-				Dependency = moveBoidJobChunk.ScheduleParallel(boidQuery, Dependency);
+				Dependency = moveBoidJobChunk.ScheduleParallel(boidQuery, behaviourCalculationDependency);
 				
-				var applyBordersJobChunk = new ApplyBordersBoidChunk()
-				{
-					borderRadius = BoidSystemSettings.Instance.BorderRadius,
-					borderPosition = BoidSystemSettings.Instance.BorderOrigin,
-					localToWorldType = ltwComponentHandle,
-				};
-				
-				Dependency = applyBordersJobChunk.ScheduleParallel(boidQuery, Dependency);
+				// var applyBordersJobChunk = new ApplyBordersBoidChunk()
+				// {
+				// 	borderRadius = BoidSystemSettings.Instance.BorderRadius,
+				// 	borderPosition = BoidSystemSettings.Instance.BorderOrigin,
+				// 	localToWorldType = ltwComponentHandle,
+				// };
+				//
+				// Dependency = applyBordersJobChunk.ScheduleParallel(boidQuery, Dependency);
 
 				neighboursLTW.Dispose(Dependency);
 			}

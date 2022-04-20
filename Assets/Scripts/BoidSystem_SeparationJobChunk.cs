@@ -24,6 +24,7 @@ namespace FlockOfBirds
 			[ReadOnly]
 			public NativeMultiHashMap<int, int> parallelHashMap;
 			
+			[WriteOnly]
 			public NativeArray<float3> separations;
 
 			public void Execute(ArchetypeChunk chunk, int chunkIndex, int firstEntityIndex)

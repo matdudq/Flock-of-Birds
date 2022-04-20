@@ -10,6 +10,9 @@ namespace FlockOfBirds
 		[SerializeField]
 		private float borderRadius;
 
+		[SerializeField]
+		private Transform target;
+
 		public float BorderRadius
 		{
 			get
@@ -23,6 +26,14 @@ namespace FlockOfBirds
 			get
 			{
 				return borderOrigin;
+			}
+		}
+
+		public Vector3 TargetPosition
+		{
+			get
+			{
+				return target.position;
 			}
 		}
 

@@ -13,8 +13,6 @@ namespace FlockOfBirds
 		private struct AlignmentJobChunk : IJobChunk
 		{
 			[ReadOnly]
-			public BoidSharedData boidSharedData;
-			[ReadOnly]
 			public NativeArray<LocalToWorld> neighboursLTW;
 			[ReadOnly]
 			public ComponentTypeHandle<LocalToWorld> localToWorldType;
@@ -24,6 +22,7 @@ namespace FlockOfBirds
 			[ReadOnly]
 			public NativeMultiHashMap<int, int> parallelHashMap;
 			
+			[WriteOnly]
 			public NativeArray<float3> alignments;
 			
 			public void Execute(ArchetypeChunk chunk, int chunkIndex, int firstEntityIndex)

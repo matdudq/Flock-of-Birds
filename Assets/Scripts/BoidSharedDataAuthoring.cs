@@ -11,6 +11,9 @@ namespace FlockOfBirds
 		private float boidRadius = 0;
 		
 		[SerializeField]
+		private float cellRadius = 1.0f;
+		
+		[SerializeField]
 		private float boidSpeed = 0;
 
 		[SerializeField]
@@ -25,9 +28,9 @@ namespace FlockOfBirds
 		[SerializeField, Range(0f,5f)]
 		private float cohesion = 0.5f;
 		
-		[SerializeField]
-		private float cellRadius = 1.0f;
-		
+		[SerializeField, Range(0f,5f)]
+		private float followTarget;
+
 		public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
 		{
 			dstManager.AddSharedComponentData(entity, new BoidSharedData()
@@ -38,7 +41,8 @@ namespace FlockOfBirds
 				separation = separation,
 				alignment = alignment,
 				cohesion = cohesion,
-				cellRadius = cellRadius
+				cellRadius = cellRadius,
+				followTarget = followTarget
 			});
 			
 			dstManager.RemoveComponent<Translation>(entity);

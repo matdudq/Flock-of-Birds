@@ -20,7 +20,10 @@ namespace FlockOfBirds
 			
 			[ReadOnly]
 			public NativeArray<float3> alignmentVectors;
-			
+
+			[ReadOnly]
+			public NativeArray<float3> followingVectors;
+
 			[ReadOnly]
 			public NativeArray<float3> separationVectors;
 			
@@ -35,8 +38,9 @@ namespace FlockOfBirds
 					float3 forward = localToWorldChunk[i].Forward;
 				    float3 alignment = boidSharedData.alignment * alignmentVectors[firstEntityIndex + i];
 					float3 separation = boidSharedData.separation * separationVectors[firstEntityIndex + i];
+					float3 targetFollow = boidSharedData.followTarget * followingVectors[firstEntityIndex + i];
 					
-					float3 combinedBehaviour = math.normalizesafe(alignment + separation);
+					float3 combinedBehaviour = math.normalizesafe(alignment + separation + targetFollow);
 					
 				    float3 speculativeVelocity = math.normalizesafe(forward + deltaTime * (combinedBehaviour - forward) * boidSharedData.maneuverSpeed);
 					
